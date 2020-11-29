@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\adController;
+use App\Http\Controllers\admin;
 use App\Http\Controllers\promptCityPage;
 use App\Http\Controllers\showCities;
 use Illuminate\Support\Facades\Route;
@@ -16,8 +18,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [showCities::class, 'promptCities'])->name('Homepage');
-Route::get('/{cityName}', [promptCityPage::class, 'promptCityPage'])->name('City');
+
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia\Inertia::render('Dashboard');
 })->name('dashboard');
+
+Route::get('/{cityName}', [promptCityPage::class, 'promptCityPage'])->name('City');
+Route::get('/ad/{Id}', [adController::class, 'renderAd'])->name('ad');
+
+

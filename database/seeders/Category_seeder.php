@@ -15,10 +15,11 @@ class Category_seeder extends Seeder
      */
     public function run()
     {
+
         DB::table('category')->insert([
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
-            'name' => Str::random(5)
+            'name' => 'Nom de catégorie'
             ]);
     }
 }

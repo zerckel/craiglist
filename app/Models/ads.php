@@ -22,6 +22,13 @@ class ads extends Model
 
     public function category()
     {
-        return $this->hasOneThrough('App\Models\category', 'App\Models\sub_category');
+        return $this->hasOneThrough(
+            'App\Models\category',
+            'App\Models\sub_category',
+            'id',
+            'id',
+            'id',
+            'id',
+        );
     }
 }

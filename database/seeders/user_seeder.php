@@ -21,7 +21,7 @@ class user_seeder extends Seeder
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
             'email' => Str::random(10).'@gmail.com',
-            'password' => Hash::make('password'),
+            'password' => Hash::make('123'),
             'ads_fav' => json_encode([1, 3]),
             'ads_create' => json_encode([1, 3]),
             'ads_mask' => json_encode([2, 4])

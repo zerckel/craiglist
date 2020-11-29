@@ -16,10 +16,18 @@ class sub_category_seeder extends Seeder
      */
     public function run()
     {
+        $list_sub_cat = [
+          'Jeux video',
+          'Roman',
+          'Emploi',
+          'Location',
+          'Automobile'
+        ];
+
         DB::table('sub_category')->insert([
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
-            'name' => Str::random(5),
+            'name' => array_rand(array_flip($list_sub_cat)),
             'category_id' => rand(0, 5),
         ]);
     }

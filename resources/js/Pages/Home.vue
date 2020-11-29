@@ -6,9 +6,7 @@
                     <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                         <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                             <nav id="searchbar">
-                                <form action="">
-                                    <input-search v-on:focus="searchbar = $event" placeholder="Trouver votre ville"/>
-                                </form>
+                                <input-search v-on:focus="searchbar = $event" placeholder="Trouver votre ville"/>
                             </nav>
                             <table class="min-w-full divide-y divide-gray-200">
                                 <thead>
@@ -28,31 +26,35 @@
                                 </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
-                                    <tr class="city" :key="citiesDisplay.INSEE" v-for="city in citiesDisplay">
-                                        <td class="commune px-6 py-4 whitespace-no-wrap">
-                                            <div class="flex items-center">
-                                                <div class="text-sm leading-5 font-medium text-gray-900">
-                                                    {{ city.Commune }}
-                                                </div>
+                                <tr class="city" :key="citiesDisplay.INSEE" v-for="city in citiesDisplay">
+                                    <td class="commune px-6 py-4 whitespace-no-wrap">
+                                        <div class="flex items-center">
+                                            <div class="text-sm leading-5 font-medium text-gray-900">
+                                                {{ city.Commune }}
                                             </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-no-wrap">
-                                            <div class="text-sm leading-5 text-gray-900">{{ city.Departement }}</div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                                            {{ city.Codepos }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                                            <inertia-link :href="route('City', city.Commune)">
-                                                See ads
-                                            </inertia-link>
-                                        </td>
-                                    </tr>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-no-wrap">
+                                        <div class="text-sm leading-5 text-gray-900">{{ city.Departement }}</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                                        {{ city.Codepos }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                                        <inertia-link :href="route('City', city.Commune)">
+                                            <span class="link">See ads</span>
+                                        </inertia-link>
+                                    </td>
+                                </tr>
                                 </tbody>
                             </table>
                             <section id="navigation">
-                                <button type="button" @click="changeInterval(false)" :class="{grey: interval === 10}">previous</button>
-                                <button type="button" @click="changeInterval(true)" :class="{grey: interval >= cities.length}">next</button>
+                                <button type="button" @click="changeInterval(false)" :class="{grey: interval === 10}">
+                                    previous
+                                </button>
+                                <button v-if="citiesDisplay.length > 9" type="button" @click="changeInterval(true)"
+                                        :class="{grey: interval >= cities.length}">next
+                                </button>
                             </section>
                         </div>
                     </div>
@@ -83,19 +85,9 @@ export default {
     props: {
         cities: Array,
     },
-    watch: {
-        searchbar: function () {
-            if (this.searchbar.length === 0) {
-                this.sliceCities()
-            } else {
-                this.citiesDisplay = this.resultSearch
-            }
-        }
-    },
     methods: {
-        changeInterval(boolean){
+        changeInterval(boolean) {
             this.interval += boolean ? 10 : -10
-            this.sliceCities()
         }
     },
     computed: {
@@ -105,14 +97,11 @@ export default {
             })
         },
         citiesDisplay() {
-            return this.citiesFilter.slice((-5 + this.interval), (5 + this.interval))
+            return this.resultSearch.length > 3 ? this.resultSearch.slice((-5 + this.interval), (5 + this.interval)) : this.citiesFilter.slice((-5 + this.interval), (5 + this.interval))
         },
-        citiesFilter(){
-            return this.cities.filter( elem => elem.ads.length > 0 )
+        citiesFilter() {
+            return this.cities.filter(elem => elem.ads.length > 0)
         }
-    },
-    created() {
-        this.sliceCities()
     }
 }
 </script>
@@ -150,5 +139,18 @@ export default {
 
 #navigation button.grey {
     visibility: hidden;
+}
+
+table td span.link {
+    border-radius: 20px;
+    padding: 5px 10px;
+    color: #2980b9;
+    transition: .5s;
+    border: 2px solid #2980b9;
+}
+
+table td span.link:hover {
+    color: #ecf0f1;
+    background-color: #2980b9;
 }
 </style>
